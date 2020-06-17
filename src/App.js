@@ -5,6 +5,7 @@ import Navbar from './components/navbar';
 import List from './components/list';
 import Details from './components/details';
 import Cart from './components/cart';
+import Model from './components/model'
 
 class App extends Component {
   render(){
@@ -16,6 +17,7 @@ class App extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/details" component={Details} />
        </Switch>
+       <Model />
       </React.Fragment>
     );
   }
