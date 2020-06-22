@@ -12,10 +12,10 @@ export default class Navbar extends Component {
                <img src={logo} alt="store" height="50" className="navbar-brand"/>
             </Link>
           
-          <nav class="nav">
-              <a class="nav-link active" >Active</a>
-              <a class="nav-link" >Link</a>
-              <a class="nav-link disabled">Disabled</a>
+          <nav className="nav">
+              <a className="nav-link active" >Active</a>
+              <a className="nav-link" >Link</a>
+              <a className="nav-link disabled">Disabled</a>
           </nav>
 
           <div className="nav-link disabled mx-auto">

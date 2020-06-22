@@ -26,7 +26,7 @@ export default class model extends Component {
                                         <button onClick={() => { value.cmodel(); }}> Continue Shopping </button>
                                     </Link>
                                     <Link to="/cart">
-                                        <button cart onClick={() => { value.cmodel();}}> Go To Cart</button>
+                                        <button  onClick={() => { value.cmodel();}}> Go To Cart</button>
                                     </Link>
                                 </div>
                                 </div>
