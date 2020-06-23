@@ -9,17 +9,7 @@ import {ProductConsumer} from '../context';
 
 export default class Navbar extends Component {
     render() {
-      const responseFacebook = (response,value) => {
-          console.log(response['id'])
-          console.log(response['name'])
-          // insert into db
-          
-          // get data from db to that unique id
 
-          value.user_id=response['name']
-          console.log(value)
-     
-      }
         return (
         <ProductConsumer>
         {value=>{
@@ -44,7 +34,7 @@ export default class Navbar extends Component {
               <FacebookLogin
                   appId="1956864841113341"
                   fields="name,email,picture"
-                  callback={(response)=>{responseFacebook(response ,value)}}
+                  callback={(response)=>{value.responseFacebook(response ,value)}}
                   render={renderProps => (
                       <BUTTON onClick={renderProps.onClick}>
                       {value.user_id}

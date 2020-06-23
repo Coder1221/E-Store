@@ -33,7 +33,20 @@ class ProductProvider extends Component {
         });
     }
 
+    responseFacebook = (response,value) => {
+        // console.log(response['id'])
+        // console.log(response['name'])
+        // insert into db
+        // get data from db to that unique id
 
+        value.user_id=response['name']
+        console.log(value)
+
+        this.setState(()=>{
+            return{user_id : response['name']}
+        })
+    }
+    
     getitem=(id)=>{
         return this.state.products.find(item=>item.id === id)
     }
@@ -125,7 +138,8 @@ class ProductProvider extends Component {
             inc :this.increment,
             dec : this.decrement,
             ccart : this.clearCart,
-            ritem : this.removeitem
+            ritem : this.removeitem,
+            responseFacebook:this.responseFacebook
              }}>
             {this.props.children}
             </ProductContext.Provider>
