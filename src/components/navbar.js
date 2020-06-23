@@ -36,8 +36,8 @@ export default class Navbar extends Component {
                   fields="name,email,picture"
                   callback={responseFacebook}
                   render={renderProps => (
-                    // <button onClick={renderProps.onClick}>This is my custom FB button</button>
-                    <a className="nav-link active" onClick={renderProps.onClick}>Login FB</a>
+                    <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                    // <a className="nav-link active" onClick={renderProps.onClick}>Login FB</a>
               )}/>
           </nav>
 
