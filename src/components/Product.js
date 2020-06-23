@@ -20,6 +20,7 @@ export default class Product extends Component {
                     <Link to="/details">
                         <img src={img} alt ="Product" className="card-img-top" />
                     </Link>
+                    
                     <button className="cart-btn" disabled={inCart ? true : false} onClick = {()=>{
                       value.model(id)}} >
                         {inCart ? (
@@ -47,7 +48,9 @@ export default class Product extends Component {
                             </svg>
                         )}
                     </button>
+
                 </div>
+                
                 <div className="card-footer d-flex justify-content-between">
                     <p className="align-self-center mb-0">{title}</p>
                     <h5 className="text-blue font-italic mb-0">

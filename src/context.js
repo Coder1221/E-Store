@@ -12,6 +12,7 @@ class ProductProvider extends Component {
         cart : [],
         cartTotal : 0,
         deieveryCharges : 0,
+        user_id: 'Guest'
     }
 
 

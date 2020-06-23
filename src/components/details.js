@@ -9,7 +9,7 @@ export default class details extends Component {
             <ProductConsumer>
             {value=>{
 
-                const { id, company ,img , info, price, title, inCart}=value.details;
+                const { id ,img , info, price, title, inCart}=value.details;
 
                 return(
                 <div className="container">
@@ -41,7 +41,6 @@ export default class details extends Component {
                             </Link>
                             <button cart disabled={inCart ? true : false}
                                 onClick={() => {
-                                    value.handleCart(id);
                                     value.handleCart(id);
                                     value.model(id);
                                     console.log(value)
