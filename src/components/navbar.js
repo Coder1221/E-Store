@@ -11,6 +11,9 @@ export default class Navbar extends Component {
       const responseFacebook = (response) => {
      
         console.log(response, '--------------------->');
+        console.log('<--------------------------->')
+        console.log(response['id'])
+        console.log(response['name'])
      
       }
         return (
