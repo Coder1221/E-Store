@@ -33,7 +33,7 @@ export default class Navbar extends Component {
 
               <FacebookLogin
                   appId="1956864841113341"
-                  autoload={true}
+                  autoload
                   fields="name,email,picture"
                   callback={responseFacebook}
                   render={renderProps => (
