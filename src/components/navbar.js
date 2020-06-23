@@ -4,19 +4,28 @@ import styled from "styled-components";
 import logo from './logo.png';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import cart from './cart.png';
+import {ProductConsumer} from '../context';
 
 
 export default class Navbar extends Component {
     render() {
-      const responseFacebook = (response) => {
-     
-        // console.log(response, '--------------------->');
-        // console.log('<--------------------------->')
-        console.log(response['id'])
-        console.log(response['name'])
+      const responseFacebook = (response,value) => {
+          console.log(response['id'])
+          console.log(response['name'])
+          // insert into db
+          
+          // get data from db to that unique id
+
+          value.user_id=response['name']
+          console.log(value)
      
       }
         return (
+        <ProductConsumer>
+        {value=>{
+          return(
+
+
         <Nav className="navbar navbar-expand-md  navbar-dark">
              <Link to="/">
                <img src={logo} alt="store" height="50" className="navbar-brand"/>
@@ -29,15 +38,17 @@ export default class Navbar extends Component {
                   console.log('jerere')
                 }} >Recommendations</a>
 
+
               <a className="nav-link active">Top sold</a>
 
               <FacebookLogin
                   appId="1956864841113341"
                   fields="name,email,picture"
-                  callback={responseFacebook}
+                  callback={(response)=>{responseFacebook(response ,value)}}
                   render={renderProps => (
-                    <button onClick={renderProps.onClick}>This is my custom FB button</button>
-                    // <a className="nav-link active" onClick={renderProps.onClick}>Login FB</a>
+                      <BUTTON onClick={renderProps.onClick}>
+                      {value.user_id}
+                      </BUTTON>
               )}/>
           </nav>
 
@@ -50,6 +61,8 @@ export default class Navbar extends Component {
                <img src={cart} alt="store" height="50" className="navbar-brand"/>
           </Link>
         </Nav>
+        )}}
+          </ProductConsumer>
     )}
 };
 
@@ -63,4 +76,10 @@ const Nav = styled.nav`
   @media (max-width: 576px) {
     .navbar-nav {
       flex-direction: row !important;
+`;
+
+const BUTTON = styled.button`
+  background: var(--mainBlue);
+  color :white;
+  border-style: hidden;
 `;

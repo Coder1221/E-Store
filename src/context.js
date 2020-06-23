@@ -12,14 +12,13 @@ class ProductProvider extends Component {
         cart : [],
         cartTotal : 0,
         deieveryCharges : 0,
-        user_id: 'Guest'
+        user_id: 'Fb Login'
     }
 
 
     
 
     modelopen=id=>{
-
         const product = this.getitem(id);
         this.addtocart(id)
         this.setState(()=>{
