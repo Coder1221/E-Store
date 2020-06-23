@@ -10,8 +10,8 @@ export default class Navbar extends Component {
     render() {
       const responseFacebook = (response) => {
      
-        console.log(response, '--------------------->');
-        console.log('<--------------------------->')
+        // console.log(response, '--------------------->');
+        // console.log('<--------------------------->')
         console.log(response['id'])
         console.log(response['name'])
      
@@ -29,17 +29,17 @@ export default class Navbar extends Component {
                   console.log('jerere')
                 }} >Recommendations</a>
 
-              <a className="nav-link" href='#'>Top sold</a>
+              <a className="nav-link active" href='#'>Top sold</a>
+
               <FacebookLogin
                   appId="1956864841113341"
+                  autoload={true}
                   fields="name,email,picture"
                   callback={responseFacebook}
                   render={renderProps => (
-                    <button onClick={renderProps.onClick}>This is my custom FB button</button>
-                  )}
-                />
-
-
+                    // <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                    <a className="nav-link active" href='#' onClick={renderProps.onClick}>Login FB</a>
+              )}/>
           </nav>
 
 
