@@ -25,11 +25,11 @@ export default class Navbar extends Component {
 
           <nav className="nav">
               
-              <a className="nav-link active" href="#" onClick={()=>{
+              <a className="nav-link active" onClick={()=>{
                   console.log('jerere')
                 }} >Recommendations</a>
 
-              <a className="nav-link active" href='#'>Top sold</a>
+              <a className="nav-link active">Top sold</a>
 
               <FacebookLogin
                   appId="1956864841113341"
@@ -37,7 +37,7 @@ export default class Navbar extends Component {
                   callback={responseFacebook}
                   render={renderProps => (
                     // <button onClick={renderProps.onClick}>This is my custom FB button</button>
-                    <a className="nav-link active" href='#' onClick={renderProps.onClick}>Login FB</a>
+                    <a className="nav-link active" onClick={renderProps.onClick}>Login FB</a>
               )}/>
           </nav>
 
