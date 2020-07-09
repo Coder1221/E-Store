@@ -12,9 +12,9 @@ class ProductProvider extends Component {
         cart : [],
         cartTotal : 0,
         deieveryCharges : 0,
-        user_id: 'Fb Login'
+        user_id: 'Fb Login',
+        button_dis :false
     }
-
 
     
 
@@ -33,17 +33,19 @@ class ProductProvider extends Component {
         });
     }
 
-    responseFacebook = (response,value) => {
-        // console.log(response['id'])
+    responseFacebook = (response) => {
+        console.log('-----------------------------------------------------------')
+        console.log(response)
+        console.log('-----------------------------------------------------------')
+
         // console.log(response['name'])
         // insert into db
         // get data from db to that unique id
 
-        value.user_id=response['name']
-        console.log(value)
+
 
         this.setState(()=>{
-            return{user_id : response['name']}
+            return{user_id : response['name'] ,button_dis:true}
         })
     }
     

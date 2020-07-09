@@ -6,16 +6,13 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import cart from './cart.png';
 import {ProductConsumer} from '../context';
 
-
 export default class Navbar extends Component {
     render() {
-
-        return (
+      return (
         <ProductConsumer>
         {value=>{
           return(
-
-
+        
         <Nav className="navbar navbar-expand-md  navbar-dark">
              <Link to="/">
                <img src={logo} alt="store" height="50" className="navbar-brand"/>
@@ -34,9 +31,9 @@ export default class Navbar extends Component {
               <FacebookLogin
                   appId="1956864841113341"
                   fields="name,email,picture"
-                  callback={(response)=>{value.responseFacebook(response ,value)}}
+                  callback={(response)=>{value.responseFacebook(response)}}
                   render={renderProps => (
-                      <BUTTON onClick={renderProps.onClick}>
+                      <BUTTON onClick={renderProps.onClick} disabled={value.button_dis}>
                       {value.user_id}
                       </BUTTON>
               )}/>

@@ -10,6 +10,7 @@ export default class Product extends Component {
         const {id,title ,img , price , inCart} = this.props.product;
 
         var like = true;
+         
         return (
           <ProductConsumer>
           {value=>{
@@ -21,8 +22,7 @@ export default class Product extends Component {
                         <img src={img} alt ="Product" className="card-img-top" />
                     </Link>
                     
-                    <button className="cart-btn" disabled={inCart ? true : false} onClick = {()=>{
-                      value.model(id)}} >
+                    <button className="cart-btn" disabled={inCart ? true : false} onClick = {()=>{value.model(id)}} >
                         {inCart ? (
                             <p className= "text-capitalize mb-0" disabled>
                                 {" "}
