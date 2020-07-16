@@ -4,7 +4,7 @@ const  ProductContext = React.createContext();
 //provider ,Consumer
 class ProductProvider extends Component {
     state = {
-        products : storeProducts, 
+        products : [], 
         details : detailProduct,
         model_open : false,
         model_product : [],
@@ -12,10 +12,17 @@ class ProductProvider extends Component {
         cartTotal : 0,
         deieveryCharges : 0,
         user_id: 'Fb Login',
-        button_dis :false
+        button_dis :false,
+        unique_id:''
+    }
+    
+    componentDidMount() {
+        fetch('https://apimar.herokuapp.com/items')
+        .then(res => res.json())
+        .then(json => this.setState({ products: json }));
     }
 
-
+    
     modelopen=id=>{
         const product = this.getitem(id);
         this.addtocart(id)
@@ -25,65 +32,74 @@ class ProductProvider extends Component {
 
     }
 
+    
     closeModel=()=>{
         this.setState(()=>{
             return{model_open:false};
         });
     }
 
-    // {name: "Abdur Rehman", picture: {…}, id: "2512084505713833", accessToken: "EAAbzwhm6Xv0BAGl6ziHY052ZCtaYf9PihL6CTYWaWO1WHZBBC…irVXFJsfj704obLyHTZB9RqqM31f42S4tagAKshudTzjAZDZD", userID: "2512084505713833", …}
-    // accessToken: "EAAbzwhm
-
-
-
+    
     responseFacebook = async (response) => {
-     
-        console.log('-----------------------------------------------------------')
-        console.log(response)
-        console.log('-----------------------------------------------------------')
-
-        // console.log(response['name'])
-        // insert into db
-       try{
-
-       
-        await fetch('https://apimar.herokuapp.com/db',{
+    try{
+        await fetch('https://apimar.herokuapp.com/user',{
             method: 'post',
             headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
           },
             body: JSON.stringify({
-            //   "name":response['name'],
-            //   "id":response['id'],
-            //   "userID":response['userID'],
-            "name":"req.body.name",
-            "id":"req.body.id",
-            "userID":"req.body.userIDa"
+              "name":response['name'],
+              "id":response['id'],
+              "userID":response['userID']
         })
     }).then(function(response){
             return response.json()
         }).then(function(data){
-            console.log(data)
+            data[0]['cart'].map(this.addtocart)
+        
         })
     }catch(err){
         console.log(err)
     }
         // get data from db to that unique id
-
-
-
-
         this.setState(()=>{
-            return{user_id : response['name'] ,button_dis:true}
+            return{user_id : response['name'] ,button_dis:true,unique_id:response['userID']}
         })
     }
+    
     
     getitem=(id)=>{
         return this.state.products.find(item=>item.id === id)
     }
 
-    addtocart = (id) =>{
+    
+    addtocart = async (id) =>{
+        // api call
+        if(this.state.unique_id!==''){
+        try{
+            await fetch('https://apimar.herokuapp.com/update',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+                body: JSON.stringify({
+                "id":this.state.unique_id,
+                "method":"cart",
+                "post_id":id
+            })
+        }).then(function(response){
+                return response.json()
+            }).then(function(data){
+                console.log(data)
+            })
+        }catch(err){
+            console.log(err)
+        }
+        }
+
+
         let tempProduct = [...this.state.products];
         const index = tempProduct.indexOf(this.getitem(id));
         const product = tempProduct[index];
@@ -94,6 +110,7 @@ class ProductProvider extends Component {
             return {products:tempProduct , cart:[...this.state.cart ,product]}
         },this.getTotals);
     }
+
 
     removeitem = (id)=>{
         let tempProducts = [...this.state.products];
@@ -131,7 +148,6 @@ class ProductProvider extends Component {
         }, this.getTotals);
     }
 
-
     decrement =  (id)=>{
         let tempCart = [...this.state.cart];
         const selectedProduct = tempCart.find(item => {
@@ -160,6 +176,52 @@ class ProductProvider extends Component {
         })
     };
 
+    like = async(id)=>{
+        // console.log('herer')
+        if(this.state.unique_id===''){      
+            let tempProduct = [...this.state.products];
+            const index = tempProduct.indexOf(this.getitem(id));
+            tempProduct[index].like=true;
+            console.log(tempProduct)
+            this.setState(()=>{
+                return{products:tempProduct}
+            })
+        }else{
+            
+        try{
+            await fetch('https://apimar.herokuapp.com/update',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+                body: JSON.stringify({
+                "id":this.state.unique_id,
+                "method":"like",
+                "post_id":id
+            })
+        }).then(function(response){
+                return response.json()
+            }).then(function(data){
+                console.log(data)
+            })
+        }catch(err){
+            console.log(err)
+        }
+
+        let tempProduct = [...this.state.products];
+        const index = tempProduct.indexOf(this.getitem(id));
+        tempProduct[index].like=true;
+        console.log(tempProduct)
+        this.setState(()=>{
+            return{products:tempProduct}
+        })
+    }
+
+
+    }
+
+
     render() {
         return (
             <ProductContext.Provider value={{
@@ -171,13 +233,16 @@ class ProductProvider extends Component {
             dec : this.decrement,
             ccart : this.clearCart,
             ritem : this.removeitem,
-            responseFacebook:this.responseFacebook
+            responseFacebook:this.responseFacebook,
+            like :this.like
              }}>
             {this.props.children}
             </ProductContext.Provider>
         )
     }
 }
+
+
 
 const ProductConsumer = ProductContext.Consumer;
 export {ProductProvider ,ProductConsumer};
