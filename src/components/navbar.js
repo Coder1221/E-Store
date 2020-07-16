@@ -41,7 +41,7 @@ export default class Navbar extends Component {
 
 
           <div className="nav-link disabled mx-auto">
-            Welcome to Fashionista
+            Fashionista
           </div>
 
           <Link to="/cart" className="ml-auto">

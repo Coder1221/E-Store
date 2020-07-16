@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {storeProducts , detailProduct} from './data';
 const  ProductContext = React.createContext();
 //provider ,Consumer
-
 class ProductProvider extends Component {
-    state ={
+    state = {
         products : storeProducts, 
         details : detailProduct,
         model_open : false,
@@ -16,7 +15,6 @@ class ProductProvider extends Component {
         button_dis :false
     }
 
-    
 
     modelopen=id=>{
         const product = this.getitem(id);
@@ -33,14 +31,46 @@ class ProductProvider extends Component {
         });
     }
 
-    responseFacebook = (response) => {
+    // {name: "Abdur Rehman", picture: {…}, id: "2512084505713833", accessToken: "EAAbzwhm6Xv0BAGl6ziHY052ZCtaYf9PihL6CTYWaWO1WHZBBC…irVXFJsfj704obLyHTZB9RqqM31f42S4tagAKshudTzjAZDZD", userID: "2512084505713833", …}
+    // accessToken: "EAAbzwhm
+
+
+
+    responseFacebook = async (response) => {
+     
         console.log('-----------------------------------------------------------')
         console.log(response)
         console.log('-----------------------------------------------------------')
 
         // console.log(response['name'])
         // insert into db
+       try{
+
+       
+        await fetch('https://apimar.herokuapp.com/db',{
+            method: 'post',
+            headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({
+            //   "name":response['name'],
+            //   "id":response['id'],
+            //   "userID":response['userID'],
+            "name":"req.body.name",
+            "id":"req.body.id",
+            "userID":"req.body.userIDa"
+        })
+    }).then(function(response){
+            return response.json()
+        }).then(function(data){
+            console.log(data)
+        })
+    }catch(err){
+        console.log(err)
+    }
         // get data from db to that unique id
+
 
 
 
