@@ -39,7 +39,6 @@ export default class details extends Component {
                             </Link>
                             <button cart disabled={inCart ? true : false}
                                 onClick={() => {
-                                    value.handleCart(id);
                                     value.model(id);
                                 }}>
                                 {value.products.inCart ? "In cart" : "Add to cart"}

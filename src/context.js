@@ -25,7 +25,7 @@ class ProductProvider extends Component {
     modelopen=id=>{
         const product = this.getitem(id);
 
-        this.addtocart(id)
+        this.addtocart(id);
         
         this.setState(()=>{
             return{model_product : product , model_open:true}
@@ -49,7 +49,53 @@ class ProductProvider extends Component {
     
 
     
+    getitem=(id)=>{
+        return this.state.products.find(item=>item.id === id)
+    }
+
+    
+    addtocart = async (id) =>{
+        // api call
+        if(this.state.unique_id!==''){
+            try{
+                await fetch('https://apimar.herokuapp.com/update',{
+                    method: 'post',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    "id":this.state.unique_id,
+                    "method":"cart",
+                    "post_id":id
+                })
+            }).then(function(response){
+                    return response.json()
+                }).then(function(data){
+                    console.log(data)
+                })
+            }catch(err){
+                console.log(err)
+            }
+        }
+
+        // console.log('called')    
+        let tempProduct = [...this.state.products];
+        const index = tempProduct.indexOf(this.getitem(id));
+        const product = tempProduct[index];
+        product.inCart=true;
+        product.count=1;
+        product.total = product.price;
+        this.setState(()=>{
+            return {products:tempProduct , cart:[...this.state.cart ,product]}
+        },this.getTotals);
+    }
+
+
+
     responseFacebook = async (response) => {
+        var x = []
+        var y = []
         try{
             await fetch('https://apimar.herokuapp.com/user',{
                 method: 'post',
@@ -65,61 +111,23 @@ class ProductProvider extends Component {
         }).then(function(response){
                 return response.json()
             }).then(function(data){
-                data[0]['cart'].map(this.addtocart)
-                
+                x=data[0]['cart']
+                y=data[0]['likes']
+            
             })
         }catch(err){
             console.log(err)
         }
-            // get data from db to that unique id
+        if(x.length){
+            x.map(this.addtocart)
+            y.map(this.like)
+        }
+
         this.setState(()=>{
             return{user_id : response['name'] ,button_dis:true,unique_id:response['userID'] } 
         })
     }
     
-    
-    getitem=(id)=>{
-        return this.state.products.find(item=>item.id === id)
-    }
-
-    
-    addtocart = async (id) =>{
-        // api call
-        if(this.state.unique_id!==''){
-        try{
-            await fetch('https://apimar.herokuapp.com/update',{
-                method: 'post',
-                headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              },
-                body: JSON.stringify({
-                "id":this.state.unique_id,
-                "method":"cart",
-                "post_id":id
-            })
-        }).then(function(response){
-                return response.json()
-            }).then(function(data){
-                console.log(data)
-            })
-        }catch(err){
-            console.log(err)
-        }
-        }
-
-
-        let tempProduct = [...this.state.products];
-        const index = tempProduct.indexOf(this.getitem(id));
-        const product = tempProduct[index];
-        product.inCart=true;
-        product.count=1;
-        product.total = product.price;
-        this.setState(()=>{
-            return {products:tempProduct , cart:[...this.state.cart ,product]}
-        },this.getTotals);
-    }
-
 
     removeitem = (id)=>{
         let tempProducts = [...this.state.products];
@@ -186,42 +194,42 @@ class ProductProvider extends Component {
     };
 
     like = async(id)=>{
-        // console.log('herer')
+
         if(this.state.unique_id===''){      
             let tempProduct = [...this.state.products];
             const index = tempProduct.indexOf(this.getitem(id));
             tempProduct[index].like=true;
-            console.log(tempProduct)
+            // console.log(tempProduct)
             this.setState(()=>{
                 return{products:tempProduct}
             })
-        }else{
-            
-        try{
-            await fetch('https://apimar.herokuapp.com/update',{
-                method: 'post',
-                headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              },
-                body: JSON.stringify({
-                "id":this.state.unique_id,
-                "method":"like",
-                "post_id":id
-            })
-        }).then(function(response){
-                return response.json()
-            }).then(function(data){
-                console.log(data)
-            })
-        }catch(err){
-            console.log(err)
-        }
+        }else{        
+            try{
+                await fetch('https://apimar.herokuapp.com/update',{
+                    method: 'post',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    "id":this.state.unique_id,
+                    "method":"like",
+                    "post_id":id
+                })
+            }).then(function(response){
+                    return response.json()
+                }).then(function(data){
+                    console.log(data)
+
+                })
+            }catch(err){
+                console.log(err)
+            }
 
         let tempProduct = [...this.state.products];
         const index = tempProduct.indexOf(this.getitem(id));
         tempProduct[index].like=true;
-        console.log(tempProduct)
+        // console.log(tempProduct)
         this.setState(()=>{
             return{products:tempProduct}
         })
