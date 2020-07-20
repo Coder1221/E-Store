@@ -26,7 +26,7 @@ export default class Navbar extends Component {
                 }} >Recommendations</a>
 
 
-              <a className="nav-link active">Top sold</a>
+              {/* <a className="nav-link active">Top sold</a> */}
 
               <FacebookLogin
                   appId="1956864841113341"

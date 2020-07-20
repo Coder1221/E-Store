@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {storeProducts , detailProduct} from './data';
 const  ProductContext = React.createContext();
 //provider ,Consumer
 class ProductProvider extends Component {
     state = {
         products : [], 
-        details : detailProduct,
+        detailProduct : [],
         model_open : false,
         model_product : [],
         cart : [],
@@ -25,7 +24,9 @@ class ProductProvider extends Component {
     
     modelopen=id=>{
         const product = this.getitem(id);
+
         this.addtocart(id)
+        
         this.setState(()=>{
             return{model_product : product , model_open:true}
         });
@@ -39,32 +40,40 @@ class ProductProvider extends Component {
         });
     }
 
+    handleDetail = id => {
+        const product = this.getitem(id);
+        this.setState(() => {
+          return { detailProduct: product };
+        });
+    };
+    
+
     
     responseFacebook = async (response) => {
-    try{
-        await fetch('https://apimar.herokuapp.com/user',{
-            method: 'post',
-            headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-            body: JSON.stringify({
-              "name":response['name'],
-              "id":response['id'],
-              "userID":response['userID']
-        })
-    }).then(function(response){
-            return response.json()
-        }).then(function(data){
-            data[0]['cart'].map(this.addtocart)
-        
-        })
-    }catch(err){
-        console.log(err)
-    }
-        // get data from db to that unique id
+        try{
+            await fetch('https://apimar.herokuapp.com/user',{
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name":response['name'],
+                    "id":response['id'],
+                    "userID":response['userID']
+            })
+        }).then(function(response){
+                return response.json()
+            }).then(function(data){
+                data[0]['cart'].map(this.addtocart)
+                
+            })
+        }catch(err){
+            console.log(err)
+        }
+            // get data from db to that unique id
         this.setState(()=>{
-            return{user_id : response['name'] ,button_dis:true,unique_id:response['userID']}
+            return{user_id : response['name'] ,button_dis:true,unique_id:response['userID'] } 
         })
     }
     
@@ -226,6 +235,7 @@ class ProductProvider extends Component {
         return (
             <ProductContext.Provider value={{
             ...this.state,
+            handleDetail: this.handleDetail,
             handleCart :this.addtocart,
             model:this.modelopen,
             cmodel :this.closeModel,

@@ -3,14 +3,12 @@ import { ProductConsumer } from '../context';
 import { Link } from 'react-router-dom';
 
 export default class details extends Component {
-
     render() {
         return (
             <ProductConsumer>
             {value=>{
-
-                const { id ,img , info, price, title, inCart}=value.details;
-
+                const {id,title ,img , price , inCart,info} = value.detailProduct;
+                
                 return(
                 <div className="container">
                         <div className="row">
@@ -37,15 +35,14 @@ export default class details extends Component {
                     
                         <p className="text-muted lead">{info}</p>
                             <Link to="/">
-                                <button>back to products</button>
+                                <button>Back to products</button>
                             </Link>
                             <button cart disabled={inCart ? true : false}
                                 onClick={() => {
                                     value.handleCart(id);
                                     value.model(id);
-                                    console.log(value)
                                 }}>
-                                {inCart ? "in cart" : "add to cart"}
+                                {value.products.inCart ? "In cart" : "Add to cart"}
                             </button>
                     </div>
                 </div>        
