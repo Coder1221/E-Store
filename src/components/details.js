@@ -7,7 +7,7 @@ export default class details extends Component {
         return (
             <ProductConsumer>
             {value=>{
-                const {id,title ,img , price , inCart,info} = value.detailProduct;
+                const {id,title ,img ,img1,img2,img3, price , inCart,info} = value.detailProduct;
                 
                 return(
                 <div className="container">
@@ -20,6 +20,9 @@ export default class details extends Component {
                         <div className="row">
                             <div className="mx-auto col-md-6 my-3">
                                 <img src={img} className="img-fluid" alt="" />
+                                <img src={img1} className="img-fluid" alt="" />
+                                <img src={img2} className="img-fluid" alt="" />
+                                <img src={img3} className="img-fluid" alt="" />
                             </div>
                         </div>
                         

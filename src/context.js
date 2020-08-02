@@ -24,9 +24,7 @@ class ProductProvider extends Component {
     
     modelopen=id=>{
         const product = this.getitem(id);
-
         this.addtocart(id);
-        
         this.setState(()=>{
             return{model_product : product , model_open:true}
         });
@@ -128,7 +126,6 @@ class ProductProvider extends Component {
         })
     }
     
-
     removeitem = (id)=>{
         let tempProducts = [...this.state.products];
         let tempCart = [...this.state.cart];
